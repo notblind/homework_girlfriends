@@ -1,4 +1,4 @@
-from peewee import Model, PrimaryKeyField, CharField, IntegerField, ForeignKeyField, BooleanField
+from peewee import Model, PrimaryKeyField, CharField, IntegerField, ForeignKeyField, BooleanField, DateTimeField
 
 from database.settings import db_handle
 
@@ -26,6 +26,7 @@ class Post(Model):
     comments = IntegerField()  # Кол-во комментов
     reposts = IntegerField()  # Кол-во репостов
     text = CharField(max_length=100)  # Текст поста
+    date = DateTimeField()
 
     has_photo = BooleanField(default=False)  # У поста есть фото
     has_video = BooleanField(default=False)  # У поста есть видео

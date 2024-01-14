@@ -1,6 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+from datetime import datetime
 
 from database.settings import db_handle
 from database.models import Group, Post
@@ -33,6 +34,10 @@ def get_attachments(type_attachment, attachments):
     return [attachment for attachment in attachments if attachment.get("type") == type_attachment]
 
 
+def int_to_date(val):
+    return datetime.utcfromtimestamp(val).strftime('%Y-%m-%d %H:%M:%S')
+
+
 def import_posts(group):
     payload = {
         "owner_id": f"-{group.resource_id}",
@@ -53,6 +58,7 @@ def import_posts(group):
                     "text": vk_post.get("text", ""),
                     "has_photo": bool(get_attachments("photo", vk_post.get("attachments", []))),
                     "has_video": bool(get_attachments("video", vk_post.get("attachments", []))),
+                    "date": int_to_date(vk_post.get("date", 0))
                 }
                 for vk_post in vk_posts
             ]
